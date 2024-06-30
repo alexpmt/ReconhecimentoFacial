@@ -119,4 +119,4 @@ class DetectorDeRostos:
 
 if __name__ == "__main__":
     detector = DetectorDeRostos()
-    detector.executar()
+    detector.executar().
