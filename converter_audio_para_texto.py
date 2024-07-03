@@ -1,20 +1,20 @@
+import tkinter.messagebox as messagebox
 import speech_recognition as sr
 
-def abrir_microfone():
-    reconhecedor = sr.Recognizer()
+def reconhecer_nome_por_voz():
+    recognizer = sr.Recognizer()
+
     with sr.Microphone() as source:
-        print("Diga alguma coisa:")
-        reconhecedor.adjust_for_ambient_noise(source)
-        audio = reconhecedor.listen(source)
+        recognizer.adjust_for_ambient_noise(source, duration=1)
+        messagebox.showinfo("Reconhecimento de Voz", "Fale seu nome completo:.")
+        audio = recognizer.listen(source)
 
     try:
-        texto = reconhecedor.recognize_google(audio, language='pt-BR')
-        print("Nome do aluno: " + texto)
-        return texto
+        nome_pessoa_presenca = recognizer.recognize_google(audio, language='pt-BR')
+        return nome_pessoa_presenca
     except sr.UnknownValueError:
-        print("Não consegui entender o áudio, tente novamente")
-    except sr.RequestError as e:
-        print("Erro ao acessar o serviço de reconhecimento de fala; {0}".format(e))
-
-if __name__ == "__main__":
-    escutar_microfone()
+        messagebox.showerror("Erro", "Não entendi o que você disse.")
+        return None
+    except sr.RequestError:
+        messagebox.showerror("Erro", "Não foi possível acessar o serviço de reconhecimento de voz.")
+        return None
